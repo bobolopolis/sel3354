@@ -1,0 +1,6 @@
+Linux kernel drivers for the SEL-3354 computer. These drivers provide
+support for the IRIG input/output and the SEL serial ports.
+
+The original code was downloaded from the SEL website and is copyright
+2007-2010 of Schweitzer Engineering Laboratories. All other changes are
+copyright of their respective authors.
