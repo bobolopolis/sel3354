@@ -10,12 +10,13 @@
 #include "selserial_common.h"
 #include "linux/pci_ids_sel.h"
 
+#include <linux/module.h>
 #include <linux/pci.h>
 
 // PCI functions
-static void __devexit selserial_remove_board( struct pci_dev *pdev );
-static int __devinit selserial_init_board( struct pci_dev *pdev,
-                                           const struct pci_device_id *ent );
+static void selserial_remove_board( struct pci_dev *pdev );
+static int selserial_init_board( struct pci_dev *pdev,
+                                 const struct pci_device_id *ent );
 
 //////////////////////////////////////////////////////////////////////////////
 /// Static variable declaration
@@ -33,7 +34,7 @@ static struct pci_driver selserial_driver =
    .name           = "selserial",
    .id_table       = selserial_pci_tbl,
    .probe          = selserial_init_board,
-   .remove         = __devexit_p(selserial_remove_board),
+   .remove         = __exit_p(selserial_remove_board),
 };
 
 /// Variable to handle multiple function enumeration
@@ -52,8 +53,8 @@ static int selserial_port_count = 0;
 ///
 /// @return 0 for success, <0 for error
 //////////////////////////////////////////////////////////////////////////////
-static int __devinit selserial_init_board( struct pci_dev *pdev,
-                                           const struct pci_device_id *ent )
+static int selserial_init_board( struct pci_dev *pdev,
+                                 const struct pci_device_id *ent )
 {
    int i;
    int rc = 0;
@@ -186,7 +187,7 @@ err_out:
 ///
 /// @param pdev pointer to the device structure describing the port
 //////////////////////////////////////////////////////////////////////////////
-static void __devexit selserial_remove_board( struct pci_dev *pdev )
+static void selserial_remove_board( struct pci_dev *pdev )
 {
    struct selserial_private *priv;
 

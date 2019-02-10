@@ -9,6 +9,7 @@
 #include "selserial.h"
 #include "selserial_common.h"
 
+#include <linux/tty_flip.h>
 #include <linux/version.h>
 
 // serial interface routines
@@ -603,8 +604,6 @@ static void selserial_receive_chars( struct selserial_uart_port *sport )
    struct tty_struct *tty = sport->port.info->tty;
 #elif LINUX_VERSION_CODE < KERNEL_VERSION(2,6,32)
    struct tty_struct *tty = sport->port.info->port.tty;
-#else
-   struct tty_struct *tty = sport->port.state->port.tty;
 #endif
    u32 receive_reg;
    u8  data;
@@ -695,7 +694,7 @@ static void selserial_receive_chars( struct selserial_uart_port *sport )
    // push the data up to the tty layer by unlocking the lock and calling
    // tty_flip_buffer_push.  Relock afterwards
    spin_unlock( &sport->port.lock );
-   tty_flip_buffer_push( tty );
+   tty_flip_buffer_push( &sport->port.state->port );
    spin_lock( &sport->port.lock );
 }
 
@@ -764,7 +763,7 @@ void selserial_tty_handle_port( struct selserial_uart_port *sport, u16 isr )
 ///
 /// @return 0 for success, <0 for error
 //////////////////////////////////////////////////////////////////////////////
-int __devinit selserial_tty_initport( struct selserial_private *priv )
+int selserial_tty_initport( struct selserial_private *priv )
 {
    int rc = 0;
    int i = 0;

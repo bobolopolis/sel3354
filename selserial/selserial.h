@@ -154,7 +154,7 @@ struct selserial_private
 // TTY port interface routines
 extern int  selserial_tty_init( void ) __init;
 extern void selserial_tty_exit( void );
-extern int  selserial_tty_initport( struct selserial_private *priv ) __devinit;
+extern int  selserial_tty_initport( struct selserial_private *priv );
 extern void selserial_tty_cleanupport( struct selserial_private *priv );
 extern void selserial_tty_handle_port( struct selserial_uart_port *sport,
                                        u16 isr );
@@ -163,8 +163,8 @@ extern void selserial_tty_handle_port( struct selserial_uart_port *sport,
 
 // Special functions of the SELserial UARTS to manipulate rs485 mode,
 // Port Power, and Loopback
-extern int  selserial_special_init( struct device *device ) __devinit;
-extern void selserial_special_cleanup( struct device *device ) __devexit;
+extern int  selserial_special_init( struct device *device );
+extern void selserial_special_cleanup( struct device *device );
 extern void __selserial_special_power_store( struct selserial_uart_port *sport,
                                              char mode );
 extern void __selserial_special_485_store( struct selserial_uart_port *sport,

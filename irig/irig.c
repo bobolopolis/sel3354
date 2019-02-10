@@ -101,6 +101,7 @@
 #include <asm/io.h>
 #include <asm/uaccess.h>
 #include <linux/version.h>
+#include <linux/module.h>
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,27)
 #include <asm/semaphore.h>
@@ -187,23 +188,22 @@ static ssize_t irig_write(struct file *filp, const char __user *buf, size_t coun
 static int irig_ioctl(struct inode *inode, struct file *filp,
                       unsigned int cmd, unsigned long arg);
 static unsigned int irig_poll(struct file *filp, poll_table *wait);
-static int __devinit irig_probe(struct pci_dev *dev,
+static int irig_probe(struct pci_dev *dev,
                                 const struct pci_device_id *id);
-static void __devexit irig_remove(struct pci_dev *dev);
+static void irig_remove(struct pci_dev *dev);
 
 static struct file_operations Irig_Fops =
 {
    .owner   = THIS_MODULE,
    .read    = irig_read,
    .write   = irig_write,
-   .ioctl   = irig_ioctl,
    .open    = irig_open,
    .release = irig_release,
    .poll    = irig_poll,
    .llseek  = no_llseek,
 };
 
-static struct __devinitdata pci_device_id Irig_Pci_Tbl[] =
+static struct pci_device_id Irig_Pci_Tbl[] =
 {
    {PCI_DEVICE(PCI_VENDOR_ID_SEL, PCI_DEVICE_ID_SEL_IRIG), 0, 0, 0},
    {0,} // terminate list
@@ -215,7 +215,7 @@ static struct pci_driver Irig_Pci_driver =
    .name = "irig_pci",
    .id_table = Irig_Pci_Tbl,
    .probe = irig_probe,
-   .remove = __devexit_p(irig_remove),
+   .remove = __exit_p(irig_remove),
 };
 
 // Character driver stuff
@@ -1162,8 +1162,8 @@ static unsigned int irig_poll(struct file *filp, poll_table *wait)
 ///                                failed
 ///
 ////////////////////////////////////////////////////////////////////////////////
-static int __devinit irig_probe(struct pci_dev *dev,
-                                const struct pci_device_id *id)
+static int irig_probe(struct pci_dev *dev,
+                      const struct pci_device_id *id)
 {
    int ret = 0;
 
@@ -1255,7 +1255,7 @@ static int __devinit irig_probe(struct pci_dev *dev,
 ///     OUTPUTS: none
 ///
 ////////////////////////////////////////////////////////////////////////////////
-static void __devexit irig_remove(struct pci_dev *dev)
+static void irig_remove(struct pci_dev *dev)
 {
    // Release all the stuff we got in the probe func
 

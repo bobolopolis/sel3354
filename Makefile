@@ -14,7 +14,7 @@ else
 # get the correct headers
 ifndef KERNELDIR
 ifndef KVERS
-   KERNELDIR := /usr/src/linux-headers-$(shell uname -r)
+   KERNELDIR := /lib/modules/$(shell uname -r)/build
 else
    KERNELDIR := /usr/src/linux-headers-$(KVERS)
 endif

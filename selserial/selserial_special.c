@@ -686,7 +686,7 @@ static ssize_t selserial_special_half_flow_store( struct device *dev,
 ///
 /// @return 0 for success, an error code for failure
 //////////////////////////////////////////////////////////////////////////////
-int __devinit selserial_special_init( struct device *device )
+int selserial_special_init( struct device *device )
 {
    int rc;
 
@@ -720,7 +720,7 @@ out1:
 ///
 /// @param device Device to remove the files from.
 //////////////////////////////////////////////////////////////////////////////
-void __devexit selserial_special_cleanup( struct device *device )
+void selserial_special_cleanup( struct device *device )
 {
    device_remove_file( device, &dev_attr_half_duplex );
    device_remove_file( device, &dev_attr_half_flow );
