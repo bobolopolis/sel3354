@@ -1,0 +1,14 @@
+linux-kernel-drivers (2.0.0) yellowstone; urgency=low
+
+  * Rearrange the tree to provide a more organized view of the world
+  * Fix a few bugs in the serial driver around usage of termios for x86
+  * Minor changes to the drivers to support out-of-tree builds
+  * Provide source packages for selserial and irig to allow out of tree builds
+
+ -- Eugene Bordenkircher <eugene_bordenkircher@selinc.com>  Wed, 06 Jan 2010 10:32:02 -0800
+
+linux-kernel-drivers (0.0.1) yellowstone; urgency=low
+
+  * SEL drivers for the linux kernel
+
+ -- Eugene Bordenkircher <eugene_bordenkircher@selinc.com>  Tue, 27 May 2008 18:14:39 -0700

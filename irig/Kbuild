@@ -1,0 +1,7 @@
+##############################################################################
+# Copyright (C) 2010 Schweitzer Engineering Laboratories, Inc.
+#
+# Kbuild file for the sel_irig kernel module 
+##############################################################################
+
+obj-$(CONFIG_SEL_IRIG) := irig.o

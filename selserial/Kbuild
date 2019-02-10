@@ -1,0 +1,12 @@
+##############################################################################
+# Copyright (C) 2010 Schweitzer Engineering Laboratories, Inc.
+#
+# Kbuild file for the selserial kernel module 
+##############################################################################
+
+obj-$(CONFIG_SEL_SELSERIAL) += selserial.o
+selserial-y += selserial_main.o
+selserial-y += selserial_common.o
+selserial-y += selserial_special.o
+selserial-y += selserial_irq.o
+selserial-y += selserial_tty.o

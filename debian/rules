@@ -1,0 +1,83 @@
+#!/usr/bin/make -f
+##############################################################################
+# Copyright (C) 2009 Schweitzer Engineering Laboratories, Inc.
+# Debian rules file for package building.
+##############################################################################
+
+clean:
+	dh_testdir
+	dh_testroot
+	dh_clean
+
+build:
+	dh_testdir
+
+binary-indep:
+	dh_testdir -i
+	dh_testroot -i
+	dh_installchangelogs -i
+	dh_installdocs -i
+	dh_install -i
+	dh_link -i
+	
+	# Cleanup the sel3354 source
+	for f in $$(find debian/sel3354-driver-source/usr/src/modules/sel3354/ -type f -name '*.[ch]'); do \
+	   unifdef -DCONFIG_SEL \
+	           -DCONFIG_SEL_IRIG \
+	           -DCONFIG_SEL_SELSERIAL \
+	           -UCONFIG_SEL_SELSERIAL_RAW \
+                   -UCONFIG_SEL_SELSERIAL_MB \
+                   -UCONFIG_SEL_SELSERIAL_STALE_DATA_TIMER \
+                   $$f > $$f.new; \
+	   mv $$f.new $$f; \
+	done
+	mv debian/sel3354-driver-source/usr/src/modules/sel3354/selserial/Kbuild.sel3354 \
+	   debian/sel3354-driver-source/usr/src/modules/sel3354/selserial/Kbuild
+	mv debian/sel3354-driver-source/usr/src/modules/sel3354/Kbuild.sel3354 \
+	   debian/sel3354-driver-source/usr/src/modules/sel3354/Kbuild
+	mv debian/sel3354-driver-source/usr/src/modules/sel3354/Makefile.sel3354 \
+	   debian/sel3354-driver-source/usr/src/modules/sel3354/Makefile
+	
+	# Compress the source packages
+	cd debian/sel3354-driver-source/usr/src && \
+		tar -cjf sel3354-driver.tar.bz2 modules && \
+		rm -rf modules
+	
+	dh_compress -i
+	dh_fixperms -i
+	dh_gencontrol -i
+	dh_md5sums -i
+	dh_builddeb -i
+
+binary-arch:
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary
+
+# Module-assistant stuff
+
+PACKAGE = sel3354-drivers-modules
+MA_DIR ?= /usr/share/modass
+sinclude $(MA_DIR)/include/generic.make
+sinclude $(MA_DIR)/include/common-rules.make
+
+kdist_clean: prep-deb-files
+	dh_clean
+	$(MAKE) clean
+
+kdist_config: prep-deb-files
+binary-modules: kdist_config
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	$(MAKE) KVERS=$(KVERS) KERNELDIR=$(KSRC) MODPREFIX=$(CURDIR)/debian/$(PKGNAME)/ modules_install
+	dh_installdocs
+	dh_installchangelogs
+	dh_compress
+	dh_fixperms
+	dh_installmodules
+	dh_installdeb
+	dh_gencontrol -- -v$(VERSION)
+	dh_md5sums
+	dh_builddeb --destdir=$(DEB_DESTDIR)
+
+.PHONY: kdist_clean kdist_config binary-modules

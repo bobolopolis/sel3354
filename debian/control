@@ -1,0 +1,30 @@
+Source: linux-kernel-drivers
+Section: devel
+Priority: optional
+Maintainer: Eugene Bordenkircher <eugene_bordenkircher@selinc.com>
+Build-Depends: debhelper (>= 5), unifdef
+Standards-Version: 3.6.1
+
+Package: linux-kernel-drivers
+Architecture: all
+Section: devel
+Priority: optional
+Description: Installer for in-tree SEL driver source.
+ This package contains the source for SEL provided kernel drivers and a 
+ script to install it into a kernel tree for in-tree building
+
+Package: sel3354-driver-source
+Architecture: all
+Depends: ${misc:Depends}, debhelper (>=5), module-assistant (>= 0.8.1), bzip2
+Description: SEL Uart support - kernel module source
+ All SEL custom drivers needed for the SEL3354
+ .
+ This package provides the source code for the selserial kernel module.
+ Kernel sources or headers are required to compile this module.
+
+Package: custom-kernel-headers
+Architecture: all
+Section: devel
+Priority: optional
+Description: Custom Linux kernel headers version 2.6.x
+ This package contains the Custom Linux kernel headers for version 2.6.x

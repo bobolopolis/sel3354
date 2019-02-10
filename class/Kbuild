@@ -1,0 +1,7 @@
+##############################################################################
+# Copyright (C) 2010 Schweitzer Engineering Laboratories, Inc.
+#
+# Kbuild file for the sel_class kernel module 
+##############################################################################
+
+obj-$(CONFIG_SEL) := sel_class.o
