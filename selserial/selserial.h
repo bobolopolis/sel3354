@@ -18,8 +18,8 @@
 /* Maximum number of ports this driver is ever allowed service */
 #define SELSERIAL_NR                   64
 
-/* TODO: serial_core ID number for the port. I just picked one that wasn't used. */
-#define PORT_SELSERIAL                 73
+/* TODO: Set this in include/uapi/linux/serial_core.h */
+#define PORT_SELSERIAL                 123
 
 /* TODO: Default value for level interrupt triggers. Picked it out of the blue
  * to give a reasonable response time. */
