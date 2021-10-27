@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: GPL-2.0-only */
 /*
- * COPYRIGHT (c) 2008 Schweitzer Engineering Laboratories, Pullman, Washington
- * 
+ * Copyright 2008 Schweitzer Engineering Laboratories, Pullman, Washington
+ *
  * Main header file for the driver
  */
 #ifndef _SELSERIAL_H_INCLUDED
@@ -21,7 +21,7 @@
 /* TODO: Set this in include/uapi/linux/serial_core.h */
 #define PORT_SELSERIAL                 123
 
-/* TODO: Default value for level interrupt triggers. Picked it out of the blue
+/* Default value for level interrupt triggers. Picked it out of the blue
  * to give a reasonable response time. */
 #define SELSERIAL_DEFAULT_COUNT_LEVEL  32
 
@@ -121,7 +121,7 @@ struct selserial_private
 	 * array of ports to be part of this structure. If we just said
 	 * *port, a separate block of memory would have to be allocated
 	 * (2 to keep track of now per device). This way a single big
-	 * block can be allocated  (sizeof(struct selserial_private) +
+	 * block can be allocated (sizeof(struct selserial_private) +
 	 * sizeof(struct selserial_uart_port)*num_ports) and treat it like a
 	 * single structure. */
 	struct selserial_uart_port  ports[0];

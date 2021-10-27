@@ -16,8 +16,8 @@ static struct uart_driver selserial_uart_driver =
 {
    .owner         = THIS_MODULE,
    .driver_name   = "selserial",
-   .dev_name      = "ttySEL", /// for when someone installs udev
-   .major         = 11,       /// same as MUX, but MUX is only for parisc
+   .dev_name      = "ttySEL",
+   .major         = 11,       /* same as MUX, but MUX is only for parisc */
    .minor         = 0,
    .nr            = SELSERIAL_NR,
    .cons          = NULL,
